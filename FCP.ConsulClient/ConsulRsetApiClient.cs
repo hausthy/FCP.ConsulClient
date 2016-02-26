@@ -10,18 +10,16 @@ namespace Consul.RsetApi.Client
     {
         private HttpClient _httpClient;
 
-        private Uri _apiBaseUri;
-
-        protected static Uri defaultApiBaseUri = new UriBuilder("http://127.0.0.1:8500").Uri;
+        private Uri _apiBaseUri;        
 
         #region 构造函数
         public ConsulRsetApiClient()
-            : this(defaultApiBaseUri)
+            : this(ConsulConstants.DefaultApiBaseUri)
         { }
 
         public ConsulRsetApiClient(Uri apiBaseUri)
         {
-            _apiBaseUri = apiBaseUri ?? defaultApiBaseUri;
+            _apiBaseUri = apiBaseUri ?? ConsulConstants.DefaultApiBaseUri;
             _httpClient = new HttpClient() { BaseAddress = _apiBaseUri };            
         }
         #endregion

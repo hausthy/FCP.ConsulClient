@@ -44,6 +44,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="ConsulConstants.cs" />
     <Compile Include="ConsulApiUriBuilder.cs" />
     <Compile Include="Extensions\HttpResponseConsulResultExtension.cs" />
     <Compile Include="Interfaces\IConsulAgentApiClient.cs" />
