@@ -23,7 +23,7 @@ namespace Consul.RsetApi.Client
         {
             var response = await httpClient.GetAsync(agentChecksApiUrl).ConfigureAwait(false);
 
-            return await response.formatConsulApiQueryResult<IDictionary<string, ConsulHealthCheck>>().ConfigureAwait(false);
+            return await response.formatConsulApiQueryResultAsync<IDictionary<string, ConsulHealthCheck>>().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace Consul.RsetApi.Client
         {
             var response = await httpClient.GetAsync(agentServicesApiUrl).ConfigureAwait(false);
 
-            return await response.formatConsulApiQueryResult<IDictionary<string, ConsulAgentService>>().ConfigureAwait(false);
+            return await response.formatConsulApiQueryResultAsync<IDictionary<string, ConsulAgentService>>().ConfigureAwait(false);
         }
 
         /// <summary>

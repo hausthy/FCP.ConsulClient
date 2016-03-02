@@ -22,7 +22,7 @@ namespace Consul.RsetApi.Client
             var getKVApiUrl = string.Format("{0}/{1}", kvApiUrl, key);            
 
             var response = await httpClient.GetAsync(getKVApiUrl).ConfigureAwait(false);
-            var queryResult = await response.formatConsulApiQueryResult<ConsulKVPair[]>().ConfigureAwait(false);
+            var queryResult = await response.formatConsulApiQueryResultAsync<ConsulKVPair[]>().ConfigureAwait(false);
 
             var result = new ConsulApiQueryResult<ConsulKVPair> { StatusCode = queryResult.StatusCode };
             if (queryResult.ResponseData != null && queryResult.ResponseData.Length > 0)
@@ -44,7 +44,7 @@ namespace Consul.RsetApi.Client
                 .Param("raw", string.Empty);
 
             var response = await httpClient.GetAsync(queryApiUriBuilder.buildApiUri()).ConfigureAwait(false);
-            return await response.formatConsulApiQueryResult<string>().ConfigureAwait(false);
+            return await response.formatConsulApiQueryResultAsync().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -60,7 +60,7 @@ namespace Consul.RsetApi.Client
 
             var response = await httpClient.GetAsync(queryApiUriBuilder.buildApiUri()).ConfigureAwait(false);
 
-            return await response.formatConsulApiQueryResult<ConsulKVPair[]>().ConfigureAwait(false);
+            return await response.formatConsulApiQueryResultAsync<ConsulKVPair[]>().ConfigureAwait(false);
         }
         #endregion
 
@@ -94,7 +94,7 @@ namespace Consul.RsetApi.Client
 
             var response = await httpClient.GetAsync(queryApiUriBuilder.buildApiUri()).ConfigureAwait(false);
 
-            return await response.formatConsulApiQueryResult<string[]>().ConfigureAwait(false);
+            return await response.formatConsulApiQueryResultAsync<string[]>().ConfigureAwait(false);
         }
         #endregion
 
@@ -145,7 +145,7 @@ namespace Consul.RsetApi.Client
             var content = new StringContent(value, Encoding.UTF8);
             var response = await httpClient.PutAsync(putApiUriBuilder.buildApiUri(), content).ConfigureAwait(false);
 
-            return await response.formatConsulApiWriteResult<bool>().ConfigureAwait(false);
+            return await response.formatConsulApiWriteResultAsync<bool>().ConfigureAwait(false);
         }
         #endregion
 
@@ -161,7 +161,7 @@ namespace Consul.RsetApi.Client
 
             var response = await httpClient.DeleteAsync(deleteKVApiUrl).ConfigureAwait(false);
 
-            return await response.formatConsulApiWriteResult<bool>().ConfigureAwait(false);
+            return await response.formatConsulApiWriteResultAsync<bool>().ConfigureAwait(false);
         }
 
         /// <summary>
@@ -177,7 +177,7 @@ namespace Consul.RsetApi.Client
 
             var response = await httpClient.DeleteAsync(deleteApiUriBuilder.buildApiUri()).ConfigureAwait(false);
 
-            return await response.formatConsulApiWriteResult<bool>().ConfigureAwait(false);
+            return await response.formatConsulApiWriteResultAsync<bool>().ConfigureAwait(false);
         }
         #endregion
     }

@@ -12,7 +12,26 @@ namespace Consul.RsetApi.Client
         /// <typeparam name="T"></typeparam>
         /// <param name="response"></param>
         /// <returns></returns>
-        internal static async Task<ConsulApiQueryResult<T>> formatConsulApiQueryResult<T>(this HttpResponseMessage response)
+        internal static async Task<ConsulApiQueryResult<string>> formatConsulApiQueryResultAsync(this HttpResponseMessage response)
+        {
+            var queryResult = new ConsulApiQueryResult<string>();
+            queryResult.StatusCode = response.StatusCode;
+
+            if (response.IsSuccessStatusCode)
+            {
+                queryResult.ResponseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false);                
+            }
+
+            return queryResult;
+        }
+
+        /// <summary>
+        /// 格式化Consul Api查询结果
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        internal static async Task<ConsulApiQueryResult<T>> formatConsulApiQueryResultAsync<T>(this HttpResponseMessage response)
         {
             var queryResult = new ConsulApiQueryResult<T>();
             queryResult.StatusCode = response.StatusCode;            
@@ -45,7 +64,26 @@ namespace Consul.RsetApi.Client
         /// <typeparam name="T"></typeparam>
         /// <param name="response"></param>
         /// <returns></returns>
-        internal static async Task<ConsulApiWriteResult<T>> formatConsulApiWriteResult<T>(this HttpResponseMessage response)
+        internal static async Task<ConsulApiWriteResult<string>> formatConsulApiWriteResultAsync(this HttpResponseMessage response)
+        {
+            var writeResult = new ConsulApiWriteResult<string>();
+            writeResult.StatusCode = response.StatusCode;
+
+            if (response.IsSuccessStatusCode)
+            {
+                writeResult.ResponseData = await response.Content.ReadAsStringAsync().ConfigureAwait(false);                
+            }
+
+            return writeResult;
+        }
+
+        /// <summary>
+        /// 格式化Consul Api写入结果
+        /// </summary>
+        /// <typeparam name="T"></typeparam>
+        /// <param name="response"></param>
+        /// <returns></returns>
+        internal static async Task<ConsulApiWriteResult<T>> formatConsulApiWriteResultAsync<T>(this HttpResponseMessage response)
         {
             var writeResult = new ConsulApiWriteResult<T>();
             writeResult.StatusCode = response.StatusCode;
@@ -67,19 +105,8 @@ namespace Consul.RsetApi.Client
         /// <returns></returns>
         private static T deserializeJson<T>(string responseJson)
         {
-            responseJson = responseJson ?? string.Empty;
-            if (typeof(T) == typeof(string) && responseJson.Length > 0)
-            { 
-                //对于反序列化为String时，确保首尾存在双引号
-                if (!responseJson.StartsWith("\""))
-                {
-                    responseJson = "\"" + responseJson;
-                }
-                if (!responseJson.EndsWith("\""))
-                {
-                    responseJson += "\"";
-                }
-            }
+            if (string.IsNullOrEmpty(responseJson))
+                return default(T);                        
 
             return JsonConvert.DeserializeObject<T>(responseJson);
         }

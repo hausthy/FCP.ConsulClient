@@ -54,7 +54,7 @@ namespace Consul.RsetApi.Client
             }
             var response = await httpClient.GetAsync(queryApiUriBuilder.buildApiUri()).ConfigureAwait(false);
 
-            return await response.formatConsulApiQueryResult<ConsulServiceEntry[]>().ConfigureAwait(false);
+            return await response.formatConsulApiQueryResultAsync<ConsulServiceEntry[]>().ConfigureAwait(false);
         }
         #endregion
 
@@ -68,7 +68,7 @@ namespace Consul.RsetApi.Client
             var queryHealthStateApiUrl = string.Format("{0}/{1}", healthStateApiUrl, state);
             var response = await httpClient.GetAsync(queryHealthStateApiUrl).ConfigureAwait(false);
 
-            return await response.formatConsulApiQueryResult<ConsulHealthCheck[]>().ConfigureAwait(false);
+            return await response.formatConsulApiQueryResultAsync<ConsulHealthCheck[]>().ConfigureAwait(false);
         }
     }
 }
